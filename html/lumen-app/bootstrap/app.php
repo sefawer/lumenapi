@@ -105,11 +105,28 @@ $app->configure('app');
 | can respond to, as well as the controllers that may handle them.
 |
 */
+$app->withFacades();
+$app->withEloquent();
+$app->configure('view');
+$app->view->addExtension('blade', 'php');
+
+$app->singleton(
+    Illuminate\View\ViewServiceProvider::class
+);
+
+// View dizini ayarı
+$app->configure('view');
+$app->view->addLocation(__DIR__.'/../resources/views');
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
+
+$app->routeMiddleware([
+    'throttle' => 'Illuminate\Routing\Middleware\ThrottleRequests:10,1',
+    'validation' => App\Http\Middleware\ValidateRequest::class,
+]);
 
 return $app;

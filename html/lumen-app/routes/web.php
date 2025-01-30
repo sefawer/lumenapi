@@ -2,17 +2,15 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
-*/
-
 $router->get('/', function () use ($router) {
     return $router->app->version();
+});
+
+$router->group(['middleware' => 'validation'], function () use ($router) {
+    // Tüm route'lar bu grup altında ve validation middleware'inden geçiyor
+    $router->post('/location/create', 'LocationController@create');
+    $router->post('/location/list', 'LocationController@list');
+    $router->post('/location/update/{id}', 'LocationController@update');
+    $router->post('/location/{id}', 'LocationController@info');
+    $router->get('/location', 'LocationController@view');
 });
