@@ -49,8 +49,7 @@ $app->singleton(
 );
 
 $app->singleton(
-    Illuminate\Database\Eloquent\Factory::class,
-    Database\Factories\Factory::class
+    Illuminate\Database\Eloquent\Factory::class
 );
 
 /*

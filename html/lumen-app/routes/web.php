@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\LocationController;
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 $router->get('/', function () use ($router) {

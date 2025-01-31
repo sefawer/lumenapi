@@ -12,19 +12,30 @@ class LocationController extends Controller
      *
      * @return void
      */
-    public function create()
+    public function create(Request $request)
     {
         //Create Location Info
+        return Location::create([
+            "name"=>$request->input('name'),
+            "latitude"=>$request->input('latitude'),
+            "longitude"=>$request->input('longitude'),
+            "marker_color"=>$request->input('marker_color')
+        ])->toJson();
     }
 
     public function list()
     {
-        //Get list of Locations
+        return Location::all()->toJson();
     }
 
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        //Update Location Info
+        $location=Location::find($id);
+        $location->name=$request->input('name');
+        $location->longitude=$request->input('longitude');
+        $location->latitude=$request->input('latitude');
+        $location->marker_color=$request->input('marker_color');
+        return $location->save()->toJson();
     }
 
     public function info($id) {
@@ -34,11 +45,11 @@ class LocationController extends Controller
     public function view()
     {
         // Örnek birden fazla konum verisi
-        $locations = [
+        /*$locations = [
             ['latitude' => 40.7128, 'longitude' => -74.0060, 'name' => 'New York', 'markerColor' => 'red'],
             ['latitude' => 34.0522, 'longitude' => -118.2437, 'name' => 'Los Angeles', 'markerColor' => 'blue'],
             ['latitude' => 51.5074, 'longitude' => -0.1278, 'name' => 'London', 'markerColor' => 'green'],
-        ];
+        ];*/
 
         $locations = Location::all();
         // Veriyi blade'e gönderiyoruz
