@@ -30,12 +30,9 @@ class LocationController extends Controller
 
     public function update(Request $request, $id)
     {
-        $location=Location::find($id);
-        $location->name=$request->input('name');
-        $location->longitude=$request->input('longitude');
-        $location->latitude=$request->input('latitude');
-        $location->marker_color=$request->input('marker_color');
-        return $location->save()->toJson();
+        $location = Location::findOrFail($id);
+        $location->update($request->all());
+        return response()->json(['message' => 'Location updated successfully']);
     }
 
     public function info($id) {
