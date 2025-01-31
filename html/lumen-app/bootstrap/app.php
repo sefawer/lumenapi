@@ -23,9 +23,9 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
+$app->withFacades();
 
-// $app->withEloquent();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +46,11 @@ $app->singleton(
 $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
+);
+
+$app->singleton(
+    Illuminate\Database\Eloquent\Factory::class,
+    Database\Factories\Factory::class
 );
 
 /*
@@ -105,8 +110,9 @@ $app->configure('app');
 | can respond to, as well as the controllers that may handle them.
 |
 */
-$app->withFacades();
-$app->withEloquent();
+//$app->register(Illuminate\Database\Eloquent\Model::class);
+$app->register(Illuminate\Database\MigrationServiceProvider::class);
+$app->configure('database');
 $app->configure('view');
 $app->view->addExtension('blade', 'php');
 

@@ -6,10 +6,11 @@
     "type": "project",
     "require": {
         "php": "^8.1",
+        "laravel/helpers": "^1.7",
         "laravel/lumen-framework": "^10.0"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.9.1",
+        "fakerphp/faker": "^1.24",
         "mockery/mockery": "^1.4.4",
         "phpunit/phpunit": "^10.0"
     },
@@ -28,6 +29,9 @@
     "scripts": {
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "php artisan key:generate"
         ]
     },
     "config": {
