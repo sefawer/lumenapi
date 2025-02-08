@@ -54,4 +54,16 @@ class LocationController extends Controller
             'locations' => $locations
         ]);
     }
+
+    public function delete ($id)
+    {
+        $location = Location::find($id);
+
+        $location->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Location deleted successfully'
+        ]);
+    }
 }

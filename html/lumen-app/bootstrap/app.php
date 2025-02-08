@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__.'/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
@@ -110,6 +109,14 @@ $app->configure('app');
 |
 */
 //$app->register(Illuminate\Database\Eloquent\Model::class);
+$app->register(Illuminate\Cookie\CookieServiceProvider::class);
+$app->register(Illuminate\Session\SessionServiceProvider::class);
+$app->register(Illuminate\Encryption\EncryptionServiceProvider::class);
+$app->configure('session');
+$app->middleware([
+    Illuminate\Session\Middleware\StartSession::class,
+]);
+
 $app->register(Illuminate\Database\MigrationServiceProvider::class);
 $app->configure('database');
 $app->configure('view');
@@ -129,7 +136,14 @@ $app->router->group([
     require __DIR__.'/../routes/web.php';
 });
 
+if (!function_exists('csrf_token')) {
+    function csrf_token() {
+        return app('session')->token(); // Session'dan token'ı al
+    }
+}
+
 $app->routeMiddleware([
+    'csrf' => App\Http\Middleware\VerifyCsrfToken::class,
     'throttle' => 'Illuminate\Routing\Middleware\ThrottleRequests:10,1',
     'validation' => App\Http\Middleware\ValidateRequest::class,
 ]);
